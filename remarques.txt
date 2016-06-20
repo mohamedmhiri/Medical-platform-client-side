@@ -1,0 +1,4 @@
+-Mail de confirmation n'est pas envoyé !
+-Base de données: Customers: plusieurs insertions pour le même customer => Solution: Ajouter un système d'authentification
+-Pas de gestion d'erreur => exemple: renvoyer un rdv déjà pris ( actualiser la page après envoi rdv)
+-pas de validation formulaire : format email non vérifié

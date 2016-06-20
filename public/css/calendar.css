@@ -1,0 +1,76 @@
+/* Calendar */
+.ui-datepicker-calendar {
+  width: 30%;
+margin-left: 410px;
+
+}
+
+/* The following blocks dictate the previous and next look */
+.ui-datepicker-prev, .ui-datepicker-next {
+  cursor: pointer;
+}
+.ui-datepicker-prev, .ui-datepicker-next {
+    border: 2px solid #24a18b;
+    border-radius: 50%;
+    color: #24a18b;
+    width: 3em;
+    margin: -1em;
+    font-size: 1em;
+    line-height: 2em;
+
+}
+
+
+
+.ui-datepicker-prev {
+  float: left;
+    margin-left: 350px;
+
+}
+
+.ui-datepicker-next {
+  float: right;
+      margin-right: 350px;
+
+
+}
+
+/* This is the look of the months header */
+.ui-datepicker th {
+    text-transform: uppercase;
+  text-align: center;
+    font-size: 6pt;
+    padding: 5px 0;
+    color: #24a18b;
+    text-shadow: 1px 0px 0px #fff;
+    filter: dropshadow(color=#fff, offx=1, offy=0);
+    border-top: 1px solid #bbb;
+
+
+}
+
+
+
+/* This is the look of the actual dates */
+.ui-datepicker tbody td {
+  text-align: center;
+  padding: 8;
+   border: 2px solid transparent;
+    border-radius: 50%;
+    display: inline-block;
+    height: 3em;
+    line-height: 2em;
+    text-align: center;
+    width: 3em;
+        font-weight: 600;
+    text-transform: uppercase;
+
+}
+.ui-datepicker tbody td:hover {
+    border: 3px solid #006666;
+     width:2px;
+
+}
+
+
+/*********************************************/
