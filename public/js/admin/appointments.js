@@ -18,7 +18,7 @@ $(document).ready(function() {
       url: url+'/api/get-all-appointments',
 
       error: function(data) {
-                    alert(JSON.stringify(data));
+                    
         $('#error').html('Could not find any appointments');
       }
 
@@ -35,7 +35,7 @@ $(document).ready(function() {
       $.get(url+"/api/get-appointment-info/"+calEvent.id, 
         function(data) {
           var id = calEvent.id;
-          var url1 = "/booking-app-master/public/api/delete-appointment/" + id ;
+          var url1 = document.getElementById('url').textContent+"/api/delete-appointment/" + id ;
           var a = " <p> <a href="+ url1 ;
           var start = moment(calEvent.start).format('YYYY-MM-DD [at] h:mm a');
           var end = moment(calEvent.end).format('YYYY-MM-DD [at] h:mm a');
@@ -82,7 +82,7 @@ $(document).ready(function() {
           url:   url +'/api/set-availability',
           data: eventData,
           success: function(data) {
-            alert('success');
+           
             $('#calendar').fullCalendar('refetchEvents');
           },
 

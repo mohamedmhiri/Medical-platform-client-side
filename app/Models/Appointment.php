@@ -29,7 +29,6 @@ class Appointment extends Model implements AuthenticatableContract{
       $info = Session::get('appointmentInfo');
       Appointment::create(array(
         'customer_id'  => $customerID,
-        'appointment_type'  =>  $info['package_id'],
         'appointment_datetime'  =>  $info['datetime']
       ));
       
@@ -40,3 +39,4 @@ class Appointment extends Model implements AuthenticatableContract{
       return $query->where('appointment_datetime', '>', $begin)->where('appointment_datetime', '<', $end);
     } 
 }
+

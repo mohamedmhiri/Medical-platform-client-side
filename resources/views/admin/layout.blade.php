@@ -33,7 +33,8 @@
         <ul class="nav navbar-nav">
           <li><a href="{{ url('admin/appointments') }}">Appointments<span class="sr-only">(current)</span></a></li>
           <li><a href="{{ url('admin/availability') }}">Availability</a></li>
-          <li><a href="{{ url('admin/packages') }}">Packages</a></li>
+          <li><a href="{{ url('admin/makeAppointment') }}">Make an appointment for a patient</a></li>
+
           <li><a href="{{ url('admin/configuration') }}">Configuration</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

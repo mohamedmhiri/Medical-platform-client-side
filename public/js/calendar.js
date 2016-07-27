@@ -5,8 +5,10 @@ cDate = moment();
 $('#currentDate').text("La date d'aujourd'hui est " + cDate.format("MMMM Do, YYYY") );
 
 $(document).ready(function($){
+
 	createCalendar();
 });
+
 
 /**
  * Instantiates the calendar AFTER ajax call
@@ -28,6 +30,7 @@ function createCalendar()
 			onSelect: getTimes,
 		});
 	});
+
 }
 
 /**
@@ -64,7 +67,7 @@ function getTimes(d)
 			$("#dayTimes").append('<a id="time" href="#oModal">' + rdate[1] + '</a><br>');
 			document.getElementById("pid").value = data[i].id;
 
-            $.post(url+"/details/"+data[i].id);
+            $.get(url+"/details/"+data[i].id);
 }
 });
 }

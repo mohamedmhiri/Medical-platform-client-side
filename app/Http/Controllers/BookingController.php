@@ -30,6 +30,7 @@ class BookingController extends Controller
    //ys$packages = Package::all();
    return view('index');
  }
+
  public function getEndTime()
  {
   $appointment = Appointment::find(44);
@@ -83,6 +84,61 @@ class BookingController extends Controller
 
    // return view('index', $data);
   }
+
+  public function signIn(Request $request)
+  {
+    $input = Input::all();
+    $package =DB::table('packages')->where('id', 1)->first();
+    $Info = [ 
+      "fname"        => $input['fname'],
+      "lname"        => $input['lname'],
+      "number"       => $input['number'],
+      "email"        => $input['email'],
+      ];
+
+    Session::put('appointmentInfo', $Info);
+     $request->session()->flash('alert-success', 'Appointment successfully added!');
+
+    return Customer::addCustomer();
+   
+    
+   
+  }
+
+
+  public function deletePatient($email)
+  {
+    $customer=Customer::where('email','=',$email)->first();
+    $appointments= Appointment::where('customer_id','=',$customer->id)->delete();
+    $patient=Customer::where('email','=',$email)->delete();
+  }
+
+public function updatePatient($jsonInfo)
+{
+  $json_dec=json_decode($jsonInfo);
+  $patient=Customer::where('email','=',$json_dec->old_email)->first();
+  $patient->last_name=$json_dec->last_name;
+  $patient->first_name=$json_dec->first_name;
+  $patient->contact_number=$json_dec->contact_number;
+  $patient->email=$json_dec->new_email;
+  $patient->save();
+}
+//Test if updatePatient works // mhiri will only call file_get_contents 
+/*public function consumeUpdatePatient()
+{
+  $array = array(
+        'first_name'  =>  "test_firstname",
+        'last_name'   =>  "test_lastname",
+        'contact_number' => "987654",
+        'new_email'       =>  "oppa_gangam_style",
+        'old_email' => "enaTbib@tbib.com"
+        );
+  $json = file_get_contents('http://localhost:8080/booking-app-master/public/updatePatient/'.json_encode(($array)));
+  return View::make('success');
+
+
+}*/
+
   
   /**
   * Function to post customer info and present confirmation view
@@ -90,6 +146,7 @@ class BookingController extends Controller
   **/
   public function anyConfirm() 
   {
+
 
     $input = Input::all();
     $package =DB::table('packages')->where('id', 1)->first();
@@ -113,18 +170,63 @@ class BookingController extends Controller
     } else {
       Session::put('updates', '0');
     }
-  
 
-    $packageName = Package::where('id', $input['pid'])->pluck('package_name');
-    return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
+    //$packageName = Package::where('id', $input['pid'])->pluck('package_name');
+   return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
+   // return response()->json('hi');
+
   }
   
-  /**
-   * Function to create the appointment, scrub the database, and send out an email confirmation
-   *
-   * User interaction is complete
-   *
-   **/
+  public function getPatients(){
+    $patients = Customer::all();
+    return response()->json($patients);
+  }
+
+  public function getPatientsAdmin(){
+    $patients = Customer::all();
+    $array=array();
+    foreach ($patients as $patient) {
+
+      $array[] = [ 'value' => $patient['first_name']=$patient->first_name." ".$patient['last_name']=$patient->last_name,'id' => $patient->id];
+    }
+      return Response::json($array);
+  }
+
+ /* public function consumePatients(){
+    $json = file_get_contents('http://localhost:8080/booking-app-master/public/patients');
+    return response()->json($json);
+  }*/
+
+  public function submit_appointment(Request $request)
+  {
+    $appointmentInfo = [ 
+      "datetime"     => Session::get('selection'),
+
+      ];
+      $customer_id=Session::get('customer_id');
+     Session::put('appointmentInfo', $appointmentInfo);
+     Appointment::addAppointment($customer_id);
+      $info = Session::get('appointmentInfo');
+      $startTime = new DateTime($info['datetime']);
+      $startTime = $startTime->format('Y-m-d H:i');
+      $package = Package::find(1);
+      $packageTime = $package->package_time;
+      $endTime = new DateTime($info['datetime']);
+      $endTime= strtotime('+'.$packageTime.' minutes', strtotime($info['datetime']));
+      $endTime = date('Y-m-d H:i',$endTime );
+
+     BookingDateTime::timeBetween($startTime, $endTime)->delete();
+     $request->session()->flash('alert-success', 'Appointment successfully added!');
+     return view('admin/BookAppointment_admin');
+
+    
+
+  }
+  public function setIdCustomerInSession($idCustomer)
+  {
+    Session::put('customer_id', $idCustomer);
+  }
+
   public function anyConfirmed()
   {
 
@@ -213,3 +315,4 @@ class BookingController extends Controller
     return response()->json($availableTimes);
   }
 }
+

@@ -25,6 +25,10 @@ $(document).ready(function() {
     },
     selectable: true,
     select: function(start, end) {
+      var bool=false;
+      $.get(url+'/checkAvail/'+start.format(),function(data){
+        if((data.id==undefined)){
+          
       var title = confirm('Are you sure you want to set this availability?');
       var eventData;
       // Save it to DB and show
@@ -49,8 +53,13 @@ $(document).ready(function() {
           dataType: "json",
         });
       }
-    },
-  });
+    }
+    else {
+      alert('An appointment is already set at this date');
+    }
+      })
+
+  }});
 
   function refreshCalendar()
   {

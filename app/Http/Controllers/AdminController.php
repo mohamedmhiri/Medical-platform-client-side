@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use App\Models\Appointment;
 use App\Models\Package;
 use App\Models\Customer;
@@ -19,6 +18,11 @@ class AdminController extends Controller {
   {
     $errors = "None";
     return view('admin/login')->with('errors', $errors);
+  }
+
+  public function makeAppointment()
+  {
+    return view('admin/BookAppointment_admin');
   }
   
   /**
@@ -51,36 +55,16 @@ class AdminController extends Controller {
     return view('admin/configuration', ['configuration' => $configuration]);
   }
 
-  /**
-   * View function for list of packages
-   * @return view 
-   */
-  public function packages() {
-    $packages = Package::all();
-    return view('admin/packages/index', ['packages' => $packages]);
-  }
 
-  /**
-   * View Function to edit package information
-   * @param  int $package_id
-   * @return view
-   */
-  public function editPackage($package_id)
-  {
-    return view('admin/packages/editPackage', ['package' => Package::find($package_id)]);
-  }
-
-  public function updatePackage($package_id)
-  {
-    dd('tets');
-    return Redirect::route('package.update')
-                ->with('message', 'User updated.');
-
-  }
 
   public function anySetTime()
   {
     dd('test');
   }
 
+  public function checkAvail($date)
+  {
+    $boolean =Appointment::where('appointment_datetime',date('Y-m-d H:i:s', strtotime($date)))->first();
+    return response()->json($boolean);
+  } 
 }

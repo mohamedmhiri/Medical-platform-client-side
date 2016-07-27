@@ -1,10 +1,15 @@
 <?php namespace App\Models;
 
+
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Session;
 use Validator;
+use Input, Response, View;
+use Redirect;
+
+
 
 class Customer extends Model implements AuthenticatableContract{
 
@@ -30,9 +35,9 @@ class Customer extends Model implements AuthenticatableContract{
         'email'       =>  $info['email']
       ),
       array(
-        'first_name'  =>  'exists:customers,first_name',
-        'last_name'   =>  'exists:customers,last_name',
-        'email'       =>  'exists:customers,email'
+        'first_name'  =>  'required:customers,first_name',
+        'last_name'   =>  'required:customers,last_name',
+        'email'       =>  'required|email|unique:customers'
       )
     );
     
@@ -42,18 +47,25 @@ class Customer extends Model implements AuthenticatableContract{
     // We stil create a new user for them in the database.
     if ($validator->fails()) {
       // Registering the new user
-      return Customer::create(array(
+           Customer::where('email', $info['email'])->pluck('id');
+             return Redirect()->back()->withErrors($validator->errors(),'erreurs');
+
+
+     
+    } else {
+        Customer::create(array(
         'first_name'  =>  $info['fname'],
         'last_name'   =>  $info['lname'],
         'contact_number' => $info['number'],
         'email'       =>  $info['email'],
         'wants_updates' => Session::get('updates')
         ))->id;
-    } else {
-      return Customer::where('email', $info['email'])->pluck('id');
-    }
-    
+	
+             return Redirect::to('/');    
+
   }
+}
   
   
 }
+

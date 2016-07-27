@@ -22,6 +22,7 @@ Route::group(['prefix' => 'api'], function()
 	Route::get('get-all-availability', 'AdminAPIController@GetAllAvailability');
 	Route::any('set-availability', 'AdminAPIController@SetAvailability');
 	Route::get('delete-appointment/{id}', 'AdminAPIController@DeleteAppointment');
+	Route::get('confirm/{input}','BookingController@anyConfirm');
 
 });
 
@@ -33,6 +34,7 @@ Route::group(['prefix' => 'admin'], function()
 
 	// Appointment Routes
 	Route::get('appointments', 'AdminController@appointments');
+	Route::get('makeAppointment','AdminController@makeAppointment');
 
 	// Availability Routes
 	Route::get('availability', 'AdminController@availability');
@@ -52,3 +54,15 @@ Route::controller('booking', 'BookingController');
 Route::controller('admin', 'AdminController');
 Route::get('timer', 'BookingController@getEndTime');
 Route::get('details/{id}','BookingController@getDetails');
+Route::get('checkAvail/{date}','AdminController@checkAvail');
+Route::get('patients','BookingController@getPatients');
+Route::get('Conpatients','BookingController@consumePatients');
+Route::post('signIn/{input}','BookingController@signIn');
+Route::get('deletePatient/{email}','BookingController@deletePatient');
+Route::get('updatePatient/{jsonInfo}','BookingController@updatePatient');
+Route::get('consumeUpdatePatient','BookingController@consumeUpdatePatient');
+Route::get('patientsAdmin','BookingController@getPatientsAdmin');
+Route::get('idPatientSubmit/{idCustomer}','BookingController@setIdCustomerInSession');
+Route::get('submitAppointment','BookingController@submit_appointment');
+
+

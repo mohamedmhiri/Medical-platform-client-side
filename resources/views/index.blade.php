@@ -1,7 +1,9 @@
+<?php $link = Request::root(); ?>
+<!DOCTYPE html>
 
-<?php $link = Request::root(); ?><html lang="en">
+@extends('layout')
+@section('content')
 
-<head>
 
 
 
@@ -107,12 +109,8 @@
 	<link id="t-colors" href="color/default.css" rel="stylesheet">
 
 
-</head>
-@extends('layout')
-@section('content')
-    	<div class="loader"></div>
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+<div id="page-top" data-spy="scroll" data-target=".navbar-custom">
 <div id="wrapper">
 	
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -136,7 +134,8 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+  
+          <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
 			  <ul class="nav navbar-nav">
 				<li class="active"><a href="#intro">Acceuil</a></li>
 				<li><a href="#testimonial">Prendre un rendez-vous</a></li>
@@ -149,7 +148,14 @@
         </div>
         <!-- /.container -->
     </nav>
-
+<div class="flash-message">
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+      @if(Session::has('alert-' . $msg))
+i
+      <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+      @endif
+    @endforeach
+  </div> <!-- end .flash-message -->
 	<!-- Section: intro -->
     <section id="intro" class="intro">
 		<div class="intro-content">
@@ -174,6 +180,8 @@
 
 
 					</div>
+					 {!! Form::open(array('action' => 'BookingController@signIn', 'class' => 'form-horizontal', 'data-abide'=>true)) !!}
+
 					<div class="col-lg-6">
 						<div class="form-wrapper">
 						<div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
@@ -188,13 +196,16 @@
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
 													<label>Nom</label>
-													<input type="text" name="first_name" id="first_name" class="form-control input-md">
+													<span style="color:red">{{ $errors->erreurs->first('last_name') }}</span>
+
+													<input type="text"  name="fname" id="fname" class="form-control input-md">
 												</div>
 											</div>
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
 													<label>Prénom</label>
-													<input type="text" name="last_name" id="last_name" class="form-control input-md">
+												<span style="color:red">{{ $errors->erreurs->first('first_name') }}</span>
+													<input type="text" name="lname" id="lname" class="form-control input-md">
 												</div>
 											</div>
 										</div>
@@ -203,13 +214,17 @@
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
 													<label>Email</label>
+												<span style="color:red">{{ $errors->erreurs->first('email') }}</span>
+
 													<input type="email" name="email" id="email" class="form-control input-md">
 												</div>
 											</div>
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
 													<label>Numéro de téléphone</label>
-													<input type="text" name="phone" id="phone" class="form-control input-md">
+													<span style="color:red"> {{ $errors->erreurs->first('contact_number') }}</span>
+													<input type="text" name="number" id="number" class="form-control input-md">
+
 												</div>
 											</div>
 										</div>
@@ -224,7 +239,10 @@
 						
 						</div>
 						</div>
-					</div>					
+					</div>	
+					   {!! Form::close() !!} 
+				
+
 				</div>		
 			</div>
 		</div>		
@@ -245,7 +263,7 @@
 
 
 	<div class=" text-center">
- 		<h5>   Choisir une date</h3>
+ 		<h5>   Choisir une date</h5>
  			 <p id="currentDate" style="color: #71b497; font-size:large;">  </p>
 	</div>
 
@@ -313,7 +331,8 @@
   </div>
 
   <div class="text-center">
-    <button onclick="#oModal2"type="submit" class="btn btn-primary">Submit</button>
+    <button  type="submit" class="btn btn-primary"><input type="submit" href="#oModal2"  value="Go to Google">
+</button>
   </div>
   
  
@@ -464,7 +483,7 @@
 	<script src="bootstrap/js/stellar.js"></script>
 	<script src="bootstrap/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
 	<script src="bootstrap/js/owl.carousel.min.js"></script>
-	<script src="bootstrap/js/nivo-lightbox.min.js"></script>
+	<script src="./bootstrap/js/nivo-lightbox.min.js"></script>
     <script src="bootstrap/js/custom.js"></script>
     <script src="js/calendar.js"></script>
 
@@ -480,8 +499,11 @@
   <script src="{{ asset('/js/vendor/modernizr.js') }}"></script>
 
   <!-- JQuery must be in the header for the calendar to work, I don't know why... -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+ <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>-->
+
+	<script src="js/jquery/jquery3.js"></script>
+    <script src="js/jquery/jquery-ui.js"></script>
 
   <!-- Latest compiled and minified JavaScript Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
@@ -495,3 +517,5 @@
 
 </html>
 @stop
+
+
