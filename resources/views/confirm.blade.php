@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout',['isConnected',$isConnected])
 @section('content')
 <div class="row jumbotron text-center">
   <h1>Confirm Appointment</h1>
@@ -27,11 +27,11 @@
       </tr>
     </tbody>
   </table>
-  
+
   <div class="text-center">
   <a href="confirmed" class="btn btn-primary">Confirm Appointment</a>
   </div>
-  
+
 </div>
 
 <script>

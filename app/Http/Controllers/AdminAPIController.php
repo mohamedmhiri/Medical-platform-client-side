@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Http\Controllers\BaseController;
 use Input;
 use Auth;
 use DB;
@@ -20,10 +20,10 @@ use App\Models\Configuration;
 // Controller Usage
 use App\Http\Controllers\AdminController;
 
-class AdminAPIController extends Controller
+class AdminAPIController extends BaseController
 {
 
-	public function __construct() 
+	public function __construct()
 	{
 		$this->middleware('auth');
 	}
@@ -102,7 +102,7 @@ class AdminAPIController extends Controller
 			];
 			array_push($availability, $event);
 		}
-		return response()->json($availability);	
+		return response()->json($availability);
 	}
 
 	/**

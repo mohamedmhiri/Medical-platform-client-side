@@ -28,5 +28,12 @@ class Admin extends Model implements AuthenticatableContract{
     {
         return $this->password;
     }
+    /**
+    *
+    * @var array
+    *
+    */
+    protected $fillable = ['username', 'password','isConnected'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
 }

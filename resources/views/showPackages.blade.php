@@ -1,7 +1,7 @@
-@extends('layout')
+@extends('layout',['isConnected',$isConnected])
 @section('content')
 
-  
+
 
 
 <script src="{{ asset('/js/timer.js') }}"></script>
@@ -71,10 +71,10 @@ h1{
 
   <div class="row text-center">
  <!-- <h1>Select Package</h1> -->
-  <img src="img/med.png" > 
+  <img src="img/med.png" >
 
   @foreach($packages as $package)
-   
+
     <div class="col-md-4 center-block" style="float:none;">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -88,5 +88,5 @@ h1{
 </div>
   @endforeach
 </div>
- 
+
 @stop

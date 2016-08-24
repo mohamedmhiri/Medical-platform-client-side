@@ -17,7 +17,7 @@ class Customer extends Model implements AuthenticatableContract{
   protected $table = 'customers';
   protected $fillable = array('first_name', 'last_name', 'contact_number', 'email', 'wants_updates');
   protected $guarded = array('id', 'created_at', 'updated_at');
-  
+
   /**
    * Function to add a new customer to the database
    *
@@ -25,7 +25,7 @@ class Customer extends Model implements AuthenticatableContract{
    *
    **/
   public static function addCustomer() {
-    
+
     // We get appointment information then set up our validator
     $info = Session::get('appointmentInfo');
     $validator = Validator::make(
@@ -40,7 +40,7 @@ class Customer extends Model implements AuthenticatableContract{
         'email'       =>  'required|email|unique:customers'
       )
     );
-    
+
     // If the validator fails, that means the user does not exist
     // If any of those three variables don't exist, we create a new user
     // This is so that families can use the same e-mail to book, but
@@ -51,21 +51,20 @@ class Customer extends Model implements AuthenticatableContract{
              return Redirect()->back()->withErrors($validator->errors(),'erreurs');
 
 
-     
+
     } else {
         Customer::create(array(
         'first_name'  =>  $info['fname'],
         'last_name'   =>  $info['lname'],
         'contact_number' => $info['number'],
         'email'       =>  $info['email'],
-        'wants_updates' => Session::get('updates')
+        'wants_updates' => Session::get('updates')!=null ?Session::get('updates'):false
         ))->id;
-	
-             return Redirect::to('/');    
+
+             return Redirect::to('/');
 
   }
 }
-  
-  
-}
 
+
+}

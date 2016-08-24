@@ -1,13 +1,13 @@
 @extends('admin/layout')
 @section('content')
 
-<script type='text/javascript' src='../jquery/jquery-1.8.1.min.js'></script> 
+<script type='text/javascript' src='../jquery/jquery-1.8.1.min.js'></script>
 
-<script type='text/javascript' src='../jquery/jquery-ui-1.8.23.custom.min.js'></script> 
+<script type='text/javascript' src='../jquery/jquery-ui-1.8.23.custom.min.js'></script>
 
-<script type='text/javascript' src='../fullcalendar/fullcalendar.min.js'></script> 
+<script type='text/javascript' src='../fullcalendar/fullcalendar.min.js'></script>
 
-<link rel='stylesheet' type='text/css' href='../fullcalendar/fullcalendar.css' /> 
+<link rel='stylesheet' type='text/css' href='../fullcalendar/fullcalendar.css' />
 
 
 <script type='text/javascript'>
@@ -77,9 +77,9 @@ url: 'http://google.com/'
 	<div id="calendar"></div>
 </div>
 <div class="col-lg-4">
-	<legend> Details </legend>
+	<legend> Détails </legend>
 	<div id="appointment-details">
-		<p>Click on an appointment to show details.</p>
+		<p>Cliquez sur un rendez-vous pour avoir les détails .</p>
 	</div>
 </div>
 

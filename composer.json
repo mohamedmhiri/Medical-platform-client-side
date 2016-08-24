@@ -10,7 +10,8 @@
         "laravelcollective/html": "5.1.*",
         "barryvdh/laravel-ide-helper": "v2.1.2",
         "barryvdh/laravel-cors": "^0.8.1",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "guzzlehttp/guzzle": "~5.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -1,7 +1,7 @@
 <?php $link = Request::root(); ?>
 <!DOCTYPE html>
 
-@extends('layout')
+@extends('layout',['isConnected',$isConnected])
 @section('content')
 
 
@@ -20,7 +20,7 @@
 .droite {
   float:right;
 }
- 
+
 .oModal {
   position: fixed;
   z-index: 99999;
@@ -35,19 +35,19 @@
   transition: opacity 400ms ease-in;
   pointer-events: none;
 }
- 
+
 .oModal:target {
   opacity:1;
   pointer-events: auto;
 }
- 
+
 .oModal:target > div {
   margin: 10% auto;
   transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
 }
- 
+
 .oModal > div {
   max-width: 600px;
   position: relative;
@@ -59,7 +59,7 @@
   -moz-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
 }
- 
+
 .oModal > div header,.oModal > div footer {
   border-bottom: 1px solid #e7e7e7;
   border-radius: 5px 5px 0 0;
@@ -69,15 +69,15 @@
   border-top: 1px solid #e7e7e7;
   border-radius: 0 0 5px 5px;
 }
- 
+
 .oModal > div h2 {
   margin:0;
 }
- 
+
 .oModal > div .btn {
   float:right;
 }
- 
+
 .oModal > div section,.oModal > div > header, .oModal > div > footer {
   padding:15px;
 }
@@ -91,7 +91,7 @@
     <meta name="author" content="">
 
     <title>Medicio landing page template for Health niche</title>
-	
+
     <!-- css -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="bootstrap/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -112,35 +112,35 @@
 
 <div id="page-top" data-spy="scroll" data-target=".navbar-custom">
 <div id="wrapper">
-	
+
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
 		<div class="top-area">
 			<div class="container">
 				<div class="row">
-					
+
 				</div>
 			</div>
 		</div>
 
         <div class="container navigation">
-		
+
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="/">
                     <img src="bootstrap/img/logo.png" alt="" width="150" height="40" />
                 </a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-  
+
           <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
 			  <ul class="nav navbar-nav">
 				<li class="active"><a href="#intro">Acceuil</a></li>
 				<li><a href="#testimonial">Prendre un rendez-vous</a></li>
 				<li><a  href="#foot">Contactez-nous</a></li>
-				
+
 
 			  </ul>
             </div>
@@ -163,7 +163,7 @@ i
 				<div class="row">
 					<div class="col-lg-6">
 					<div class="wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">
-					<h2 class="h-ultra">Cabinet du docteur Docteur Docteur</h2>
+					<h2 class="h-ultra">Cabinet du docteur </h2>
 					</div>
 
 						<div class="well well-trans">
@@ -185,7 +185,7 @@ i
 					<div class="col-lg-6">
 						<div class="form-wrapper">
 						<div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
-						
+
 							<div class="panel panel-skin">
 							<div class="panel-heading">
 									<h3 class="panel-title"><span class="fa fa-pencil-square-o"></span> Faites confiance à la compétence <small>(inscription gratuite)</small></h3>
@@ -195,8 +195,8 @@ i
 										<div class="row">
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
-													<label>Nom</label>
-													<span style="color:red">{{ $errors->erreurs->first('last_name') }}</span>
+													<label style="margin-left:10px;">Nom</label>
+													<span style="color:red">{{ $errors != null ? $errors->erreurs->first('last_name') : '' }}</span>
 
 													<input type="text"  name="fname" id="fname" class="form-control input-md">
 												</div>
@@ -204,7 +204,7 @@ i
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
 													<label>Prénom</label>
-												<span style="color:red">{{ $errors->erreurs->first('first_name') }}</span>
+												<span style="color:red">{{ $errors != null ? $errors->erreurs->first('first_name') : ''}}</span>
 													<input type="text" name="lname" id="lname" class="form-control input-md">
 												</div>
 											</div>
@@ -213,8 +213,8 @@ i
 										<div class="row">
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
-													<label>Email</label>
-												<span style="color:red">{{ $errors->erreurs->first('email') }}</span>
+													<label style="margin-left:10px;">Email</label>
+												<span style="color:red">{{ $errors != null ? $errors->erreurs->first('email') : '' }}</span>
 
 													<input type="email" name="email" id="email" class="form-control input-md">
 												</div>
@@ -222,37 +222,37 @@ i
 											<div class="col-xs-6 col-sm-6 col-md-6">
 												<div class="form-group">
 													<label>Numéro de téléphone</label>
-													<span style="color:red"> {{ $errors->erreurs->first('contact_number') }}</span>
+													<span style="color:red"> {{ $errors != null ? $errors->erreurs->first('contact_number') : '' }}</span>
 													<input type="text" name="number" id="number" class="form-control input-md">
 
 												</div>
 											</div>
 										</div>
-										
+
 										<input type="submit" value="S'inscrire" class="btn btn-skin btn-block btn-lg">
-										
-										<p class="lead-footer">* We'll contact you by phone & email later</p>
-									
+
+										<p class="lead-footer">Nous vous contacterons par téléphone et e-mail plus tard</p>
+
 									</form>
 								</div>
-							</div>				
-						
-						</div>
-						</div>
-					</div>	
-					   {!! Form::close() !!} 
-				
+							</div>
 
-				</div>		
+						</div>
+						</div>
+					</div>
+					   {!! Form::close() !!}
+
+
+				</div>
 			</div>
-		</div>		
+		</div>
     </section>
-	
+
 	<!-- /Section: intro -->
 
 
-	
-	
+
+
 
 	<!-- Section: services -->
     <section id="testimonial" class="home-section paddingbot-60 parallax" data-stellar-background-ratio="0.5">
@@ -276,13 +276,13 @@ i
     		</div>
   	  </div>
 	</div>
-        </div>		
+        </div>
 		</div>
 		<br><br><br><br>
 
 	</section>
 	<!-- /Section: services -->
-	
+
 <div id="oModal" class="oModal">
   <div>
     <header>
@@ -291,7 +291,7 @@ i
 
 <fieldset>
   <legend>Customer Information</legend>
-  <input type="hidden" class="form-control" name="pid" id="pid" value=""> 
+  <input type="hidden" class="form-control" name="pid" id="pid" value="">
   <!-- First Name Input -->
   <div class="form-group">
     <label for="fname" class="col-lg-2 control-label">First Name</label>
@@ -299,7 +299,7 @@ i
       <input type="text" class="form-control" name="fname" id="fname" placeholder="First">
     </div>
   </div>
-  
+
   <!-- Last Name Input -->
   <div class="form-group">
     <label for="lname" class="col-lg-2 control-label">Last Name</label>
@@ -307,7 +307,7 @@ i
        <input type="text" class="form-control" name="lname" id="lname" placeholder="Last">
     </div>
   </div>
-  
+
   <!-- Contact Number -->
   <div class="form-group">
     <label for="number" class="col-lg-2 control-label">Contact Number</label>
@@ -315,7 +315,7 @@ i
        <input type="text" class="form-control" name="number" id="number" placeholder="5555555555">
     </div>
   </div>
-  
+
   <!-- Email -->
    <div class="form-group">
     <label for="email" class="col-lg-2 control-label">E-Mail</label>
@@ -323,22 +323,17 @@ i
        <input type="text" class="form-control" name="email" id="email" placeholder="you@example.com">
     </div>
   </div>
-  
-  <div class="checkbox text-center">
-      <label>
-        <input id="newsletterBox" name="newsletterBox" type="checkbox" checked> YES, I want to receive newsletters with this email</input>
-    </label>
-  </div>
+
 
   <div class="text-center">
-    <button  type="submit" class="btn btn-primary"><input type="submit" href="#oModal2"  value="Go to Google">
-</button>
+    <button  type="submit" class="btn btn-primary"><input type="submit" href="#oModal2"  value="Envoyer">
+    </button>
   </div>
-  
- 
+
+
   </div>
-  
-   {!! Form::close() !!} 
+
+   {!! Form::close() !!}
      </header>
 
      <footer class="cf">
@@ -346,14 +341,14 @@ i
      </footer>
   </div>
 </div>
- 
+
  <!--Modal 2 -->
 <div id="oModal2" class="oModal">
   <div>
     <header>
       <a href="#fermer" title="Fermer la fenêtre" class="droite">X</a>
  			Hello World
-   {!! Form::close() !!} 
+   {!! Form::close() !!}
      </header>
 
      <footer class="cf">
@@ -361,17 +356,17 @@ i
      </footer>
   </div>
 </div>
- 
+
 
 
 	<footer id="foot">
-	
+
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-md-4">
 					<div class="wow fadeInDown" data-wow-delay="0.1s">
 					<div class="widget">
-						<h5>About Medicio</h5>
+						<h5>A propos de Medical</h5>
 						<p>
 						Lorem ipsum dolor sit amet, ne nam purto nihil impetus, an facilisi accommodare sea
 						</p>
@@ -381,10 +376,10 @@ i
 					<div class="widget">
 						<h5>Information</h5>
 						<ul>
-							<li><a href="#">Home</a></li>
-							<li><a href="#">Laboratory</a></li>
-							<li><a href="#">Medical treatment</a></li>
-							<li><a href="#">Terms & conditions</a></li>
+							<li><a href="#">Accueil</a></li>
+							<li><a href="#">Laboratoire</a></li>
+							<li><a href="#">Triatement médical</a></li>
+							<li><a href="#">Termes & conditions</a></li>
 						</ul>
 					</div>
 					</div>
@@ -392,7 +387,7 @@ i
 				<div class="col-sm-6 col-md-4">
 					<div class="wow fadeInDown" data-wow-delay="0.1s">
 					<div class="widget">
-						<h5>Medicio center</h5>
+						<h5>Centre Médical</h5>
 						<p>
 						Nam leo lorem, tincidunt id risus ut, ornare tincidunt naqunc sit amet.
 						</p>
@@ -413,7 +408,7 @@ i
 								<span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-								</span> hello@medicio.com
+								</span> hello@medical.com
 							</li>
 
 						</ul>
@@ -423,14 +418,14 @@ i
 				<div class="col-sm-6 col-md-4">
 					<div class="wow fadeInDown" data-wow-delay="0.1s">
 					<div class="widget">
-						<h5>Our location</h5>
-						<p>The Suithouse V303, Kuningan City, Jakarta Indonesia 12940</p>		
-						
+						<h5>NOTRE EMPLACEMENT</h5>
+						<p>Tunis rue ...</p>
+
 					</div>
 					</div>
 					<div class="wow fadeInDown" data-wow-delay="0.1s">
 					<div class="widget">
-						<h5>Follow us</h5>
+						<h5>Nous suivre</h5>
 						<ul class="company-social">
 								<li class="social-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
 								<li class="social-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -441,7 +436,7 @@ i
 					</div>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
 		<div class="sub-footer">
 		<div class="container">
@@ -449,23 +444,21 @@ i
 				<div class="col-sm-6 col-md-6 col-lg-6">
 					<div class="wow fadeInLeft" data-wow-delay="0.1s">
 					<div class="text-left">
-					<p>&copy;Copyright 2015 - Medicio. All rights reserved.</p>
+					<p>&copy;Copyright 2015 - Medical. Tous les droits sont résevés.</p>
 					</div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-6 col-lg-6">
 					<div class="wow fadeInRight" data-wow-delay="0.1s">
-					<div class="text-right">
-						<p><a href="http://bootstraptaste.com/">Bootstrap Themes</a> by BootstrapTaste</p>
-					</div>
-                    <!-- 
-                        All links in the footer should remain intact. 
+
+                    <!--
+                        All links in the footer should remain intact.
                         Licenseing information is available at: http://bootstraptaste.com/license/
                         You can buy this theme without footer links online at: http://bootstraptaste.com/buy/?theme=Medicio
                     -->
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
 		</div>
 	</footer>
@@ -474,7 +467,7 @@ i
 <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
 	<!-- Core JavaScript Files -->
-    <script src="bootstrap/js/jquery.min.js"></script>	 
+    <script src="bootstrap/js/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="bootstrap/js/jquery.easing.min.js"></script>
 	<script src="bootstrap/js/wow.min.js"></script>
@@ -491,7 +484,7 @@ i
   <link href="{{ asset('/css/paper.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/core.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/normalize.css') }}" rel="stylesheet">
-  
+
   <!-- Datepicker css -->
   <link href="{{ asset('/css/calendar.css') }}" rel="stylesheet">
 
@@ -502,8 +495,8 @@ i
  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>-->
 
-	<script src="js/jquery/jquery3.js"></script>
-    <script src="js/jquery/jquery-ui.js"></script>
+	<script src="js/jquery-ui.custom/jquery.js"></script>
+    <script src="js/jquery-ui.custom/jquery-ui.js"></script>
 
   <!-- Latest compiled and minified JavaScript Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
@@ -517,5 +510,3 @@ i
 
 </html>
 @stop
-
-

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Input, Response, View;
 use Session;
 use DB;
@@ -15,20 +16,34 @@ use App\Models\Package;
 use App\Models\Customer;
 use App\Models\Appointment;
 use App\Models\BookingDateTime;
+use App\Models\Admin;
 
 
-class BookingController extends Controller
+class BookingController extends BaseController
 {
+  /**
+  *function to test weather there is an authentified user
+  * or not
+  */
+  public function isConnected()
+  {
+    $users=Admin::where('isConnected','=',1)->first();
+    if($users===null)
+      return false;
+    else
+      return true;
+  }
 
   /**
   * Function to retrieve the index page
   * User selects package to continue
   *
   **/
-  public function getIndex() 
+  public function getIndex()
   {
    //ys$packages = Package::all();
-   return view('index');
+   //$errors['erreurs']['first_name']="";
+   return view('index',['errors' => ""]);
  }
 
  public function getEndTime()
@@ -48,17 +63,17 @@ class BookingController extends Controller
     //Add package to the session data
     Session::put('packageID', $pid);
     $package = Package::find($pid);
-    
+
     // This groups all booking times by date so we can give a list of all days available.
     $data = [
      'packageName' => $package->package_name,
     'days' => BookingDateTime::all()
     ];
-    
+
     return view('BookAppointment', $data);
   }
-  
-  /** 
+
+  /**
   * Function to get customer details after Date & Time pick
   *
   **/
@@ -68,7 +83,7 @@ class BookingController extends Controller
     // Put the passed date time ID into the session
     Session::put('aptID', $aptID);
     $package = Package::find(1);
-    
+
     // Get row of date id
     $dateRow = BookingDateTime::find($aptID);
     $dateFormat = new DateTime($dateRow->booking_datetime);
@@ -89,7 +104,7 @@ class BookingController extends Controller
   {
     $input = Input::all();
     $package =DB::table('packages')->where('id', 1)->first();
-    $Info = [ 
+    $Info = [
       "fname"        => $input['fname'],
       "lname"        => $input['lname'],
       "number"       => $input['number'],
@@ -100,13 +115,13 @@ class BookingController extends Controller
      $request->session()->flash('alert-success', 'Appointment successfully added!');
 
     return Customer::addCustomer();
-   
-    
-   
+
+
+
   }
 
 
-  public function deletePatient($email)
+  /*public function deletePatient($email)
   {
     $customer=Customer::where('email','=',$email)->first();
     $appointments= Appointment::where('customer_id','=',$customer->id)->delete();
@@ -122,8 +137,8 @@ public function updatePatient($jsonInfo)
   $patient->contact_number=$json_dec->contact_number;
   $patient->email=$json_dec->new_email;
   $patient->save();
-}
-//Test if updatePatient works // mhiri will only call file_get_contents 
+}*/
+//Test if updatePatient works // mhiri will only call file_get_contents
 /*public function consumeUpdatePatient()
 {
   $array = array(
@@ -139,18 +154,18 @@ public function updatePatient($jsonInfo)
 
 }*/
 
-  
+
   /**
   * Function to post customer info and present confirmation view
   * User Confirms appointment details to continue
   **/
-  public function anyConfirm() 
+  public function anyConfirm()
   {
 
 
     $input = Input::all();
     $package =DB::table('packages')->where('id', 1)->first();
-    $appointmentInfo = [ 
+    $appointmentInfo = [
       "package_id"   => $package->id,
       "package_name" => $package->package_name,
       "package_time" => $package->package_time,
@@ -172,15 +187,15 @@ public function updatePatient($jsonInfo)
     }
 
     //$packageName = Package::where('id', $input['pid'])->pluck('package_name');
-   return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
+   return View::make('confirm',['appointmentInfo'=> $appointmentInfo,'isConnected'=>$this->isConnected()]);
    // return response()->json('hi');
 
   }
-  
-  public function getPatients(){
+
+  /*public function getPatients(){
     $patients = Customer::all();
     return response()->json($patients);
-  }
+  }*/
 
   public function getPatientsAdmin(){
     $patients = Customer::all();
@@ -199,7 +214,7 @@ public function updatePatient($jsonInfo)
 
   public function submit_appointment(Request $request)
   {
-    $appointmentInfo = [ 
+    $appointmentInfo = [
       "datetime"     => Session::get('selection'),
 
       ];
@@ -217,9 +232,9 @@ public function updatePatient($jsonInfo)
 
      BookingDateTime::timeBetween($startTime, $endTime)->delete();
      $request->session()->flash('alert-success', 'Appointment successfully added!');
-     return view('admin/BookAppointment_admin');
+     return view('admin/BookAppointment_admin',['isConnected'=> $this->isConnected()]);
 
-    
+
 
   }
   public function setIdCustomerInSession($idCustomer)
@@ -246,7 +261,7 @@ public function updatePatient($jsonInfo)
 
     // Create the appointment with this new customer id
     Appointment::addAppointment($newCustomer);
-    
+
     if ($overlapDays) {
       // Remove hours up to the last hour of the day, then continue to the next day
       // If necessary
@@ -265,10 +280,10 @@ public function updatePatient($jsonInfo)
       // Remove all dates conflicting with the appointment duration
       BookingDateTime::timeBetween($startTime, $endTime)->delete();
     }
-    
-    return View::make('success');
+
+    return View::make('success',['isConnected'=> $this->isConnected()]);
   }
-  
+
   /**
   * Function to retrieve times available for a given date
   *
@@ -284,13 +299,13 @@ public function updatePatient($jsonInfo)
 
     // We will now create an array of all booking datetimes that belong to the selected day
     // WE WILL NOT filter this in the query because we want to maintain compatibility with every database (ideally)
-    
+
     // PSEUDO CODE
     // Get package duration of the chosen package
     $package = Package::find(1);
    $packageTime = $package->package_time;
 
-    // For each available time... 
+    // For each available time...
     foreach($availableTimes as $t => $value) {
 
       $startTime = new DateTime($value->booking_datetime);
@@ -298,21 +313,20 @@ public function updatePatient($jsonInfo)
         $endTime = new DateTime($value->booking_datetime);
 
 
-       date_add($endTime, date_interval_create_from_date_string($packageTime.' hours')); 
+       date_add($endTime, date_interval_create_from_date_string($packageTime.' hours'));
         // Try to grab any appointments between the start time and end time
         $result = Appointment::timeBetween($startTime->format("Y-m-d H:i"), $endTime->format("Y-m-d H:i"));
 
         // If no records are returned, the time is okay, if not, we must remove it from the array
         if($result->first()) {
           unset($availableTimes[$t]);
-        } 
+        }
 
       } else {
         unset($availableTimes[$t]);
       }
-    }   
-    
+    }
+
     return response()->json($availableTimes);
   }
 }
-

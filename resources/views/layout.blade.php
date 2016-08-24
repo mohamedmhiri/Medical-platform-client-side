@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Appointment</title>
+  <title>Medical</title>
 
   <!-- Linking CSS -->
 
@@ -14,7 +14,7 @@
   <link href="{{ asset('/css/paper.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/core.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/normalize.css') }}" rel="stylesheet">
-  
+
   <!-- Datepicker css -->
   <link href="{{ asset('/css/calendar.css') }}" rel="stylesheet">
 
@@ -31,7 +31,7 @@
   <!-- Moment -->
   <script src="{{ asset('/js/moment.js') }}"></script>
 
-</head>  
+</head>
 <body>
   <div id="url" style="display: none">{{url('')}}</div>
 

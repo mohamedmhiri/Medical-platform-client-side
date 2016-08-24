@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout',['isConnected',$isConnected])
 @section('content')
 <?php $link = Request::root(); ?>
 <div class="row jumbotron text-center">
@@ -25,4 +25,3 @@
 <!-- Calendar Functionality -->
 <script src="{{ asset('/js/calendar.js') }}"></script>
 @endsection
-
