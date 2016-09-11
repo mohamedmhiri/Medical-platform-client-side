@@ -15,7 +15,7 @@ use GuzzleHttp\Client;
 
 class LoginController extends BaseController
 {
-
+    
 
     /**
     *return a new user to be authentified
